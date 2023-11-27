@@ -1,28 +1,22 @@
 exchange_rates = {
-    ('USD',  'EUR'): 0.94,
-    ('USD', 'UAH'): 38.0,
-    ('USD', 'PLN'): 4.22,
-    ('EUR', 'USD'): 1 / 0.94,
-    ('EUR', 'UAH'): 38.0 / 0.94,
-    ('EUR', 'PLN'): 4.22 / 0.94,
-    ('UAH', 'USD'): 1 / 38.0,
-    ('UAH', 'EUR'): 0.94 / 38.0,
-    ('UAH', 'PLN'): 4.22 / 38.0,
-    ('PLN', 'USD'): 1 / 4.22,
-    ('PLN', 'EUR'): 0.94 / 4.22,
-    ('PLN', 'UAH'): 38.0 / 4.22
+    'USD': 1.0,
+    'EUR': 0.85,
+    'GBP': 0.73,
+    'JPY': 113.94,
+    'CAD': 1.27,
 }
 
 
 def convert_currency(amount, from_currency, to_currency):
 
-    if from_currency == to_currency:
-        return amount
-
-    if (from_currency, to_currency) in exchange_rates:
-        rate = exchange_rates[(from_currency, to_currency)]
-    else:
+    if from_currency not in exchange_rates:
         raise ValueError("Can't convert this currency!")
+    if to_currency not in exchange_rates:
+        raise ValueError("Can't convert this currency!")
+    
+    source_rate = exchange_rates[from_currency]
+    target_rate = exchange_rates[to_currency]
 
-    converted_amount = amount * rate
+    converted_amount = amount * (target_rate / source_rate)
     return converted_amount
+    
